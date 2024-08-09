@@ -1,0 +1,42 @@
+CREATE TABLE total_properties (
+    id INT PRIMARY KEY,
+    brokered_by FLOAT,
+    status VARCHAR(50),
+    price DECIMAL(10, 2),
+    bed INT,
+    bath INT,
+    acre_lot DECIMAL(10, 2),
+    street VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(100),
+    zip_code INT,
+    house_size FLOAT
+);
+
+CREATE TABLE properties (
+    id INT PRIMARY KEY,
+    brokered_by FLOAT,
+    status VARCHAR(50),
+    price DECIMAL(10, 2),
+    bed INT,
+    bath INT,
+    acre_lot DECIMAL(10, 2),
+    street VARCHAR(255),
+    house_size FLOAT,
+    FOREIGN KEY (id) REFERENCES location(id)
+);
+
+CREATE TABLE location (
+    id INT PRIMARY KEY,
+    city VARCHAR(255),
+    state VARCHAR(100),
+    zip_code INT
+);
+
+NSERT INTO properties (id, brokered_by, status, price, bed, bath, acre_lot, street, house_size)
+SELECT id, brokered_by, status, price, bed, bath, acre_lot, street, house_size
+FROM total_properties;
+
+INSERT INTO location (id, city, state, zip_code)
+SELECT id, city, state, zip_code
+FROM total_properties;
